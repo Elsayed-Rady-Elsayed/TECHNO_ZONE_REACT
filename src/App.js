@@ -1,12 +1,13 @@
 import Header from "./components/Header";
-import Login from "./pages/Login";
-import Signup from "./pages/Signup";
-import Home from "./pages/Home";
-import Users from "./pages/Users";
+import Login from "./pages/client/auth/Login";
+import Signup from "./pages/client/auth/Signup";
+import Home from "./pages/client/Home";
+import Users from "./pages/admin/user/Users";
+import CreateNewUser from "./pages/admin/user/CreateNewUser";
 // for router
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Dashboard from "./pages/Dashboard";
-import EditUser from "./pages/EditUser";
+import Dashboard from "./pages/admin/Dashboard";
+import EditUser from "./pages/admin/user/EditUser";
 function App() {
   return (
     <div className="">
@@ -17,6 +18,10 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}>
           <Route path="/dashboard/users" element={<Users />} />
           <Route path="users/:id" element={<EditUser />} />
+          <Route
+            path="/dashboard/users/create"
+            element={<CreateNewUser />}
+          />{" "}
         </Route>
       </Routes>
     </div>

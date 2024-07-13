@@ -1,6 +1,6 @@
-import Header from "../components/Header";
-import Form from "../components/Form";
-import { REGISTERAPIURL } from "../helper/links";
+import Header from "../../../components/Header";
+import Form from "../../../components/Form";
+import { REGISTERAPIURL } from "../../../helper/links";
 export default function Signup() {
   document.title = "Sign Up";
 

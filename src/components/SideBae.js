@@ -1,9 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 export default function SideBar() {
   const CloseSideBar = () => {
     document.getElementById("menuDashBoard").classList.add("-left-full");
   };
+
   return (
     <div
       id="menuDashBoard"
@@ -12,12 +13,19 @@ export default function SideBar() {
       <div className="w-full text-end mb-2 md:hidden">
         <i className="fa-solid fa-xmark" onClick={CloseSideBar}></i>
       </div>
-      <Link
+      <NavLink
+        activeclassname="active"
         to="/dashboard/users"
-        className="bg-gray-100 text-lg font-normal text-black w-full inline-block p-2 rounded-md border border-transparent hover:border-[#4a9dec] hover:bg-transparent transition-all"
+        className=" text-lg font-normal text-black w-full inline-block p-2 rounded-md border border-transparent hover:bg-gray-100 transition-all"
       >
         users
-      </Link>
+      </NavLink>
+      <NavLink
+        to="/dashboard/users/create"
+        className="mt-1 text-lg font-normal text-black w-full inline-block p-2 rounded-md border border-transparent  hover:bg-gray-100 transition-all"
+      >
+        new users
+      </NavLink>
     </div>
   );
 }

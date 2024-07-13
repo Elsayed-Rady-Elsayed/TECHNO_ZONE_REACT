@@ -1,7 +1,7 @@
 import { Outlet, Route } from "react-router-dom";
-import SideBar from "../components/SideBae";
-import TopBar from "../components/TopBar";
-import Users from "./Users";
+import SideBar from "../../components/SideBae";
+import TopBar from "../../components/TopBar";
+import Users from "./user/Users";
 
 export default function Dashboard() {
   document.title = "Dashboard";

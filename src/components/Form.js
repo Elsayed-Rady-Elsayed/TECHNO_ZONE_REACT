@@ -72,11 +72,17 @@ export default function Form(props) {
     <form
       onSubmit={onSubmitForm}
       action=""
-      className="w-full mt-16 flex flex-col shadow-2xl p-5 md:p-10 rounded-2xl gap-5 bg-[#e8e8e8]"
+      className={`w-full flex flex-col ${
+        props.isEdit ? "p-0" : "shadow-2xl bg-[#e8e8e8] mt-16  p-5 md:p-10"
+      }  rounded-2xl gap-5`}
     >
-      <h2 className="text-3xl uppercase font-bold text-center text-[#4a9dec]">
-        {props.btnTitle}
-      </h2>
+      {!props.isEdit ? (
+        <h2 className="text-3xl uppercase font-bold text-center text-[#4a9dec]">
+          {props.btnTitle}
+        </h2>
+      ) : (
+        ""
+      )}
       <div>
         <label
           htmlFor="name"
@@ -200,7 +206,9 @@ export default function Form(props) {
           setRgisterClicked(true);
         }}
         type="submit"
-        className="bg-gradient-to-tr opacity-100 from-[#4a9dec] to-[#c2e9fb] text-white p-2 rounded-full w-1/2 m-auto hover:opacity-75 transition-all"
+        className={`bg-gradient-to-tr opacity-100 from-[#4a9dec] to-[#c2e9fb] text-white p-2 rounded-full ${
+          props.isEdit ? "w-1/4" : "w-1/2 m-auto"
+        }  hover:opacity-75 transition-all`}
       >
         {props.btnTitle}
       </button>

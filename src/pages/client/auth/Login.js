@@ -1,7 +1,7 @@
 import Axios from "axios";
 import { useState } from "react";
-import { LOGINAPIURL } from "../helper/links";
-import Header from "../components/Header";
+import { LOGINAPIURL } from "../../../helper/links";
+import Header from "../../../components/Header";
 
 export default function Login() {
   document.title = "Login";

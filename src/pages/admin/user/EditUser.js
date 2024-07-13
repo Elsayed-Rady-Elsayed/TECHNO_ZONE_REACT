@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
-import "../helper/links";
-import { GETONEUSERAPIURL, UPDATEUSERAPIURL } from "../helper/links";
-import Form from "../components/Form";
+import { GETONEUSERAPIURL, UPDATEUSERAPIURL } from "../../../helper/links";
+import Form from "../../../components/Form";
 export default function EditUser() {
   document.title = "EDIT USER";
 

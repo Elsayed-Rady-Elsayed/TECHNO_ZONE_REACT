@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { USERDELETEAPIURL, USERSAPIURL } from "../helper/links";
+import { USERDELETEAPIURL, USERSAPIURL } from "../../../helper/links";
 import Axios from "axios";
 import { Link } from "react-router-dom";
 
