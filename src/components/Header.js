@@ -1,9 +1,24 @@
 import { useContext } from "react";
-import { json, Link } from "react-router-dom";
+import { json, Link, useNavigate } from "react-router-dom";
+import { User } from "../pages/client/context/Context";
+import Cookies from "universal-cookie";
+import Axios from "axios";
+import { LOGOUTAPIURL } from "../helper/links";
 export default function Header() {
-  const LOGOUT = () => {
-    window.localStorage.removeItem("user");
-    window.location.pathname = "/";
+  const cookie = new Cookies();
+  const userToken = cookie.get("Bearer");
+  console.log(userToken);
+  const nav = useNavigate();
+  const LOGOUT = async () => {
+    await Axios.post(LOGOUTAPIURL, null, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + userToken,
+      },
+    });
+    cookie.remove("Bearer");
+    nav("/");
+    document.getElementById("showUserInfoCard").classList.add("hidden");
   };
 
   const showUserLoginedCard = () => {
@@ -70,7 +85,7 @@ export default function Header() {
             </li>
           </ul>
         </nav>
-        {window.localStorage.getItem("user") ? (
+        {userToken ? (
           <div className="flex items-center">
             <i
               onClick={showUserLoginedCard}

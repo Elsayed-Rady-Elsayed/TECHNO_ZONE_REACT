@@ -5,3 +5,5 @@ export const USERDELETEAPIURL = "http://127.0.0.1:8000/api/user/delete";
 export const GETONEUSERAPIURL = "http://127.0.0.1:8000/api/user/showbyid";
 export const UPDATEUSERAPIURL = "http://127.0.0.1:8000/api/user/update";
 export const ADDNEWUSERAPIURL = "http://127.0.0.1:8000/api/user/create";
+export const LOGOUTAPIURL = "http://127.0.0.1:8000/api/logout";
+export const ADDNEWPRODUCTAPIURL = "http://127.0.0.1:8000/api/product/create";

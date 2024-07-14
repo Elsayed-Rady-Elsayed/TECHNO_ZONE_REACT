@@ -10,6 +10,9 @@ import Dashboard from "./pages/admin/Dashboard";
 import EditUser from "./pages/admin/user/EditUser";
 import RequireAuth from "./pages/client/auth/RequireAuth";
 import PersistLogin from "./pages/client/auth/PersistLog";
+import EditProduct from "./pages/admin/products/EditProduct";
+import AddProduct from "./pages/admin/products/AddProduct";
+import Products from "./pages/admin/products/Product";
 function App() {
   return (
     <div className="">
@@ -26,7 +29,10 @@ function App() {
               <Route
                 path="/dashboard/users/create"
                 element={<CreateNewUser />}
-              />{" "}
+              />
+              <Route path="/dashboard/products" element={<Products />} />
+              <Route path="products/:id" element={<EditProduct />} />
+              <Route path="/dashboard/products/add" element={<AddProduct />} />
             </Route>
           </Route>
         </Route>

@@ -35,7 +35,6 @@ export default function Login() {
           const token = response.data.data.token;
           const userDetails = response.data.data.user;
           SavedUser.setAuth({ token, userDetails });
-          window.localStorage.setItem("user", true);
           const cookie = new Cookies();
           cookie.set("Bearer", token);
           nav("/dashboard");

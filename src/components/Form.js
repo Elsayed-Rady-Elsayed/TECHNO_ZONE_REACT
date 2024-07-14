@@ -42,6 +42,9 @@ export default function Form(props) {
     }));
   };
 
+  const cookie = new Cookies();
+  const CookieToken = cookie.get("Bearer") ?? "";
+
   //HANDLE SUBMIT BASED ON PARENT COME FROM
   const onSubmitForm = async function (evt) {
     evt.preventDefault();
@@ -52,7 +55,14 @@ export default function Form(props) {
       FormData.password_confirmation.trim() === FormData.password.trim()
     ) {
       try {
-        let response = await Axios.post(props.APIURL, FormData);
+        let response = props.isEdit
+          ? await Axios.post(props.APIURL, FormData, {
+              headers: {
+                Authorization: "Bearer " + CookieToken,
+              },
+            })
+          : await Axios.post(props.APIURL, FormData);
+        console.log(response);
         if (response.status === 200) {
           if (props.isEdit) {
             nav("/dashboard/users");
@@ -62,7 +72,6 @@ export default function Form(props) {
             const cookie = new Cookies();
             cookie.set("Bearer", token);
             SavedUser.setAuth({ token, userDetails });
-            window.localStorage.setItem("user", true);
             nav("/");
           }
         }

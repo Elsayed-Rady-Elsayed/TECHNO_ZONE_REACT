@@ -14,7 +14,6 @@ export default function SideBar() {
         <i className="fa-solid fa-xmark" onClick={CloseSideBar}></i>
       </div>
       <NavLink
-        activeclassname="active"
         to="/dashboard/users"
         className=" text-lg font-normal text-black w-full inline-block p-2 rounded-md border border-transparent hover:bg-gray-100 transition-all"
       >
@@ -25,6 +24,18 @@ export default function SideBar() {
         className="mt-1 text-lg font-normal text-black w-full inline-block p-2 rounded-md border border-transparent  hover:bg-gray-100 transition-all"
       >
         new users
+      </NavLink>
+      <NavLink
+        to="/dashboard/products"
+        className="mt-1 text-lg font-normal text-black w-full inline-block p-2 rounded-md border border-transparent  hover:bg-gray-100 transition-all"
+      >
+        products
+      </NavLink>
+      <NavLink
+        to="/dashboard/products/add"
+        className="mt-1 text-lg font-normal text-black w-full inline-block p-2 rounded-md border border-transparent  hover:bg-gray-100 transition-all"
+      >
+        add product
       </NavLink>
     </div>
   );
