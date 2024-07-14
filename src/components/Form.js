@@ -1,6 +1,9 @@
 import Axios from "axios";
-import { useEffect, useState } from "react";
-import { REGISTERAPIURL } from "../helper/links";
+import { useContext, useEffect, useState } from "react";
+import { User } from "../pages/client/context/Context";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
+
 export default function Form(props) {
   //STATE FOR USER ENTERED DATA
   const [FormData, setFormData] = useState({
@@ -9,6 +12,10 @@ export default function Form(props) {
     password: "",
     password_confirmation: "",
   });
+
+  const SavedUser = useContext(User);
+
+  const nav = useNavigate();
 
   //THIS USE EFFECT USED TO SET DATA IN FIELDS WHEN I COME TO EDIT USER
   useEffect(() => {
@@ -48,13 +55,15 @@ export default function Form(props) {
         let response = await Axios.post(props.APIURL, FormData);
         if (response.status === 200) {
           if (props.isEdit) {
-            window.location.pathname = "/dashboard/users";
+            nav("/dashboard/users");
           } else {
-            window.localStorage.setItem(
-              "user",
-              JSON.stringify(response.data.data.user)
-            );
-            window.location.pathname = "/";
+            const token = response.data.data.token;
+            const userDetails = response.data.data.user;
+            const cookie = new Cookies();
+            cookie.set("Bearer", token);
+            SavedUser.setAuth({ token, userDetails });
+            window.localStorage.setItem("user", true);
+            nav("/");
           }
         }
         if (!props.isEdit) {

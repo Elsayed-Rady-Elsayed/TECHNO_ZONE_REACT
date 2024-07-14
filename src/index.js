@@ -6,11 +6,14 @@ import "./styles/index.css";
 import { BrowserRouter } from "react-router-dom";
 // to install fontawesome
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import Context from "./pages/client/context/Context";
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
 root.render(
-  <React.StrictMode>
-    <BrowserRouter>
+  <BrowserRouter>
+    <Context>
       <App />
-    </BrowserRouter>
-  </React.StrictMode>
+    </Context>
+  </BrowserRouter>
 );

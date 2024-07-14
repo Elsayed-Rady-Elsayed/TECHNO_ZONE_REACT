@@ -12,11 +12,11 @@ export default function TopBar() {
             <i className="fa-solid fa-bars me-2 " onClick={OpenSideBar}></i>
           </span>
 
-          <a href="">
+          <Link to="/dashboard">
             <i className="fa-solid fa-microchip fa-lg text-[#688cca]"></i>{" "}
             TECHNO
             <span className="ms-1 text-[#688cca]">ZONE</span>
-          </a>
+          </Link>
         </div>
         <Link
           to="/"

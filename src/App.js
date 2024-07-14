@@ -8,6 +8,8 @@ import CreateNewUser from "./pages/admin/user/CreateNewUser";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Dashboard from "./pages/admin/Dashboard";
 import EditUser from "./pages/admin/user/EditUser";
+import RequireAuth from "./pages/client/auth/RequireAuth";
+import PersistLogin from "./pages/client/auth/PersistLog";
 function App() {
   return (
     <div className="">
@@ -15,13 +17,18 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/register" element={<Signup />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/dashboard" element={<Dashboard />}>
-          <Route path="/dashboard/users" element={<Users />} />
-          <Route path="users/:id" element={<EditUser />} />
-          <Route
-            path="/dashboard/users/create"
-            element={<CreateNewUser />}
-          />{" "}
+
+        <Route element={<PersistLogin />}>
+          <Route element={<RequireAuth />}>
+            <Route path="/dashboard" element={<Dashboard />}>
+              <Route path="/dashboard/users" element={<Users />} />
+              <Route path="users/:id" element={<EditUser />} />
+              <Route
+                path="/dashboard/users/create"
+                element={<CreateNewUser />}
+              />{" "}
+            </Route>
+          </Route>
         </Route>
       </Routes>
     </div>

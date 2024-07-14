@@ -1,7 +1,10 @@
 import Axios from "axios";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { LOGINAPIURL } from "../../../helper/links";
 import Header from "../../../components/Header";
+import { User } from "../context/Context";
+import { useNavigate } from "react-router-dom";
+import Cookies from "universal-cookie";
 
 export default function Login() {
   document.title = "Login";
@@ -11,11 +14,12 @@ export default function Login() {
     password: "",
   });
 
+  const SavedUser = useContext(User);
+
+  const nav = useNavigate();
+
   //IF USER CLICKED SIGNUP BUTTON THIS OPEN THE ERRORS
   const [LoginButtonClicked, setLoginClicked] = useState(false);
-
-  //IF THE USER ENTERD EXIST EMAIL
-  const [UserExist, setUserExist] = useState(false);
 
   //FUNCTION TO BE PASSED TO THE FORM onSubmit
   const onSubmitForm = async function (evt) {
@@ -26,16 +30,17 @@ export default function Login() {
     ) {
       try {
         let response = await Axios.post(LOGINAPIURL, FormData);
+
         if (response.status === 200) {
-          window.localStorage.setItem(
-            "user",
-            JSON.stringify(response.data.data.user)
-          );
-          window.location.pathname = "/";
+          const token = response.data.data.token;
+          const userDetails = response.data.data.user;
+          SavedUser.setAuth({ token, userDetails });
+          window.localStorage.setItem("user", true);
+          const cookie = new Cookies();
+          cookie.set("Bearer", token);
+          nav("/dashboard");
         }
-        setUserExist(true);
       } catch (error) {
-        setUserExist(false);
         console.log(error);
       }
     }

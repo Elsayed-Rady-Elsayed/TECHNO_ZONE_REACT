@@ -1,18 +1,29 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { USERDELETEAPIURL, USERSAPIURL } from "../../../helper/links";
 import Axios from "axios";
 import { Link } from "react-router-dom";
+import { User } from "../../client/context/Context";
+import axios from "axios";
 
 export default function Users() {
   document.title = "users";
 
   const [users, setUsers] = useState([]);
 
+  const user = useContext(User);
+
+  const token = user.auth.token;
+
   //this state work when you click delete to refresh the users list and remove deleted one
   const [refreshUsers, setRefUsers] = useState(0);
 
   useEffect(() => {
-    fetch(USERSAPIURL)
+    fetch(USERSAPIURL, {
+      headers: {
+        Accept: "application/json",
+        Authorization: "Bearer " + token,
+      },
+    })
       .then((res) => res.json())
       .then((data) => setUsers(data));
     //add the state variable here to execute the useeffect function again when deleting
@@ -20,7 +31,12 @@ export default function Users() {
 
   const DeleteUser = async (id) => {
     try {
-      let response = await Axios.delete(USERDELETEAPIURL + `/${id}`);
+      let response = await Axios.delete(USERDELETEAPIURL + `/${id}`, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
       if (response.status === 200) {
         //here i update the value of state to execute the useeffct again with the new list
         setRefUsers((v) => v + 1);
@@ -58,6 +74,7 @@ export default function Users() {
       </tr>
     );
   });
+
   return (
     <div className="flex-1  md:p-2">
       <table className="w-full text-center table border border-collapse">

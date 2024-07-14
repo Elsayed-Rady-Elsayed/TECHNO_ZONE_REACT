@@ -1,5 +1,5 @@
+import { useContext } from "react";
 import { json, Link } from "react-router-dom";
-
 export default function Header() {
   const LOGOUT = () => {
     window.localStorage.removeItem("user");
