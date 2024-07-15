@@ -5,7 +5,7 @@ import Header from "../../../components/Header";
 import { User } from "../context/Context";
 import { useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
-
+import Alert from "../../../components/Alert";
 export default function Login() {
   document.title = "Login";
   //STATE FOR USER ENTERED DATA
@@ -13,6 +13,8 @@ export default function Login() {
     email: "",
     password: "",
   });
+
+  const [wrong, setWrong] = useState();
 
   const SavedUser = useContext(User);
 
@@ -37,9 +39,15 @@ export default function Login() {
           SavedUser.setAuth({ token, userDetails });
           const cookie = new Cookies();
           cookie.set("Bearer", token);
-          nav("/dashboard");
+          document.getElementById("loginedSuccess").classList.remove("hidden");
+          setWrong(false);
+          setTimeout(() => {
+            nav("/");
+          }, 1000);
         }
       } catch (error) {
+        setWrong(true);
+        document.getElementById("loginedSuccess").classList.remove("hidden");
         console.log(error);
       }
     }
@@ -57,6 +65,13 @@ export default function Login() {
   return (
     <div>
       <Header />
+      <div id="loginedSuccess" className="hidden">
+        <Alert
+          title={wrong ? "email or password is wrong" : "logined successfully"}
+          color={wrong ? "bg-red-400" : "bg-green-400"}
+        />
+      </div>
+
       <div className="w-5/6 md:w-1/2 absolute left-1/2 top-1/2 -translate-y-1/2 -translate-x-1/2">
         <form
           onSubmit={onSubmitForm}

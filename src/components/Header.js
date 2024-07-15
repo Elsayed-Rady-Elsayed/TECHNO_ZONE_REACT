@@ -1,13 +1,12 @@
-import { useContext } from "react";
+import { useContext, useEffect, useReducer, useState } from "react";
 import { json, Link, useNavigate } from "react-router-dom";
 import { User } from "../pages/client/context/Context";
 import Cookies from "universal-cookie";
 import Axios from "axios";
 import { LOGOUTAPIURL } from "../helper/links";
-export default function Header() {
+export default function Header(props) {
   const cookie = new Cookies();
   const userToken = cookie.get("Bearer");
-  console.log(userToken);
   const nav = useNavigate();
   const LOGOUT = async () => {
     await Axios.post(LOGOUTAPIURL, null, {
@@ -22,7 +21,13 @@ export default function Header() {
   };
 
   const showUserLoginedCard = () => {
+    document.getElementById("showUsercart").classList.add("hidden");
     document.getElementById("showUserInfoCard").classList.toggle("hidden");
+  };
+
+  const showUserLoginedCart = () => {
+    document.getElementById("showUsercart").classList.toggle("hidden");
+    document.getElementById("showUserInfoCard").classList.add("hidden");
   };
 
   const { name } = window.localStorage.getItem("user")
@@ -37,11 +42,57 @@ export default function Header() {
     }
   };
 
+  function cartReducer(state, action) {
+    switch (action.type) {
+      case "remove":
+        return state.filter((el) => el.item.id !== action.payload.item.id);
+      case "return":
+        return action.payload;
+      default:
+        return state;
+    }
+  }
+
+  useEffect(() => {
+    dispatch({ type: "return", payload: props.cartList });
+  }, [props.cartList]);
+  const [cart, dispatch] = useReducer(cartReducer, []);
+  const removeFromCart = (item) => {
+    dispatch({ type: "remove", payload: item });
+  };
+  const renderProducts = cart.map((product, idx) => {
+    return (
+      <div
+        key={idx}
+        className="border border-gray-200 p-1 relative"
+        style={{ height: "250px" }}
+      >
+        <img
+          className="object-cover w-full h-2/4"
+          src={product.item.image}
+          style={
+            {
+              // height: "200px",
+            }
+          }
+        />
+        <h2>{product.item.title}</h2>
+        <p>count: {product.count}</p>
+        <p className="text-sm text-gray-400">{product.item.description}</p>
+        <button
+          className="bg-red-500 w-full text-white mb-0"
+          onClick={() => removeFromCart(product)}
+        >
+          remove from cart
+        </button>
+      </div>
+    );
+  });
   return (
     <div className="bg-transparent p-4 shadow-md relative">
       <div
         id="showUserInfoCard"
-        className="absolute right-2 md:left-[77%] w-52 top-full m-0.5 shadow-lg p-2 bg-white hidden"
+        className="absolute z-50 right-2 md:left-[77%] w-52 top-full m-0.5 shadow-lg p-2 bg-white hidden"
       >
         <h2 className="p-2">{name}</h2>
         <hr />
@@ -55,6 +106,14 @@ export default function Header() {
           <span>logout</span>
           <i className="fa-solid fa-arrow-right-from-bracket text-inherit"></i>
         </Link>
+      </div>
+      <div
+        id="showUsercart"
+        className="absolute right-2 z-50 md:left-[77%] w-52 top-full m-0.5 shadow-lg p-2 bg-white hidden"
+      >
+        <h2 className="p-2">cart</h2>
+        <hr />
+        <div className="grid grid-cols-1">{renderProducts}</div>
       </div>
       <div className="container m-auto flex gap-3 md:gap-10 justify-between items-center">
         <div className="logo font-bold">
@@ -91,6 +150,17 @@ export default function Header() {
               onClick={showUserLoginedCard}
               className="fa-regular fa-circle-user text-[#74C0FC] me-2 mt-1"
             ></i>
+            <span className="me-2 mt-1 relative" onClick={showUserLoginedCart}>
+              <p
+                className="cursor-pointer absolute -top-1 -right-1 bg-black text-white rounded-full p-0.5 w-3 h-3 text-center"
+                style={{
+                  fontSize: "7px",
+                }}
+              >
+                {cart.length}
+              </p>
+              <i className="fa-solid fa-cart-shopping text-[#74C0FC] "></i>
+            </span>
           </div>
         ) : (
           <div className="btnsContainer">

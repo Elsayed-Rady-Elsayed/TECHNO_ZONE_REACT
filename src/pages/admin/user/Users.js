@@ -15,6 +15,7 @@ export default function Users() {
   const token = user.auth.token;
 
   const cookie = new Cookies();
+
   const CookieToken = cookie.get("Bearer");
 
   //this state work when you click delete to refresh the users list and remove deleted one
