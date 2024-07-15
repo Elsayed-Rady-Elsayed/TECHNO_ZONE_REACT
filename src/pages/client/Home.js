@@ -15,14 +15,16 @@ export default function Home() {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    fetch(GETALLPRODUCTSAPIURL, {
-      headers: {
-        Accept: "application/json",
-        Authorization: "Bearer " + CookieToken,
-      },
-    })
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
+    if (CookieToken) {
+      fetch(GETALLPRODUCTSAPIURL, {
+        headers: {
+          Accept: "application/json",
+          Authorization: "Bearer " + CookieToken,
+        },
+      })
+        .then((res) => res.json())
+        .then((data) => setProducts(data));
+    }
   }, []);
 
   const findAllSimmilerInCart = (l, item) => {
@@ -70,39 +72,40 @@ export default function Home() {
     dispatch({ type: "remove", payload: item });
   };
 
-  const renderProducts = products.map((product, idx) => {
-    return (
-      <div
-        key={idx}
-        className="border border-gray-200 p-2 relative"
-        style={{ height: "230px" }}
-      >
-        <div className="absolute top-2 right-5">
-          <button onClick={() => addToCart(product)}>
-            <i className="fa-solid fa-cart-shopping text-white"></i>
-          </button>
-        </div>
-        <img
-          className="object-cover w-full h-2/3"
-          src={product.image}
-          style={
-            {
-              // height: "200px",
-            }
-          }
-        />
-        <h2>{product.title}</h2>
-        <p className="text-sm text-gray-400">{product.description}</p>
-      </div>
-    );
-  });
+  const renderProducts = !CookieToken
+    ? []
+    : products.map((product, idx) => {
+        return (
+          <div
+            key={idx}
+            className="border border-gray-200 p-2 relative"
+            style={{ height: "230px" }}
+          >
+            <div className="absolute top-2 right-5">
+              <button onClick={() => addToCart(product)}>
+                <i className="fa-solid fa-cart-shopping text-white"></i>
+              </button>
+            </div>
+            <img
+              className="object-cover w-full h-2/3"
+              src={product.image}
+              style={
+                {
+                  // height: "200px",
+                }
+              }
+            />
+            <h2>{product.title}</h2>
+            <p className="text-sm text-gray-400">{product.description}</p>
+          </div>
+        );
+      });
   return (
     <div>
       <Header cartList={cart} />
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-5  gap-2 container m-auto py-2 ">
         {renderProducts}
       </div>
-      <h2>home</h2>
     </div>
   );
 }

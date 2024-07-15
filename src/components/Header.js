@@ -54,7 +54,9 @@ export default function Header(props) {
   }
 
   useEffect(() => {
-    dispatch({ type: "return", payload: props.cartList });
+    if (userToken) {
+      dispatch({ type: "return", payload: props.cartList });
+    }
   }, [props.cartList]);
   const [cart, dispatch] = useReducer(cartReducer, []);
   const removeFromCart = (item) => {
